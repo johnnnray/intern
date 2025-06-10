@@ -5,17 +5,17 @@ export const authConfig = {
     signIn: '/login',
   },
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
     async session({ session, token }) {
-      if (session.user && token.role) {
+      if (token?.role) {
         session.user.role = token.role;
       }
       return session;
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role; // ここで role をJWTトークンに保存
-      }
-      return token;
     },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
