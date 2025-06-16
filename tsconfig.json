@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": ["next-auth"],
     "plugins": [
       {
         "name": "next"
@@ -27,10 +28,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "types",
     ".next/types/**/*.ts",
     "app/lib/placeholder-data.ts",
     "scripts/seed.js"
 , "app/dashboard/invoices/create/page.tsx"  ,
+"app","lib",
   "types/next-auth.d.ts"],
   "exclude": ["node_modules"]
 }
