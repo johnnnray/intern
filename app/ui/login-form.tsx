@@ -76,6 +76,8 @@ export default function LoginForm() {
           </div>
         </div>
         <input type="hidden" name="redirectTo" value={callbackUrl} />
+        <input type="hidden" name="from" value={isAdmin ? 'admin' : 'user'} />
+        
         <Button
             className="mt-4 w-full"
             variant={isAdmin ? 'admin' : 'default'}

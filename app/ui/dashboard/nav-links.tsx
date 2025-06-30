@@ -11,23 +11,32 @@ import clsx from 'clsx';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
-const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
-  {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
-    icon: DocumentDuplicateIcon,
-  },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
-  { name: 'Admin', href: '/dashboard/admin', icon: UserGroupIcon},
-];
 
-export default function NavLinks() {
+// 文字列とアイコンコンポーネントの対応表を定義
+const iconMap = {
+  home: HomeIcon,
+  invoices: DocumentDuplicateIcon,
+  customers: UserGroupIcon,
+  admin: UserGroupIcon,
+};
+
+// propsの型を厳密に定義
+type Link = {
+  name: string;
+  href: string;
+  icon: keyof typeof iconMap;
+};
+
+type NavLinksProps = {
+  links: readonly Link[];
+};
+
+export default function NavLinks({ links } : NavLinksProps) {
   const pathname = usePathname();
   return (
     <>
       {links.map((link) => {
-        const LinkIcon = link.icon;
+        const LinkIcon = iconMap[link.icon];
         return (
           <Link
             key={link.name}
@@ -39,7 +48,7 @@ export default function NavLinks() {
               },
             )}
           >
-            <LinkIcon className="w-6" />
+             <LinkIcon className="w-6" />
             <p className="hidden md:block">{link.name}</p>
           </Link>
         );

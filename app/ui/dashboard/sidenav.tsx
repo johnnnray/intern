@@ -1,10 +1,28 @@
+
 import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import AcmeLogo from '@/app/ui/acme-logo';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { signOut } from '@/auth';
+import { auth } from '@/auth';
 
-export default function SideNav() {
+const allLinks = [
+  { name: 'Home', href: '/dashboard', icon: 'home' },
+  { name: 'Invoices', href: '/dashboard/invoices', icon: 'invoices' },
+  { name: 'Customers', href: '/dashboard/customers', icon: 'customers'},
+  { name: 'Admin', href: '/dashboard/admin', icon: 'admin' },
+] as const;
+
+export default async function SideNav() {
+  const session = await auth();
+  const userRole = session?.user?.role;
+
+  const visibleLinks =
+    userRole === 'admin'
+      ? allLinks
+      : allLinks.filter((link) => link.name !== 'Admin');
+
+
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
@@ -16,7 +34,7 @@ export default function SideNav() {
         </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
+        <NavLinks links={visibleLinks} />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <form
         action={async () => {

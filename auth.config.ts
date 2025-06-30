@@ -19,11 +19,18 @@ export const authConfig = {
     },
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
+      const isUser = auth?.user?.role === 'user'
       const isAdmin = auth?.user?.role === 'admin'
       const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
+      const isAdminDash = nextUrl.pathname.startsWith('/dashboard/admin');
 
+      //ログイン状態のアクセス
       if (isOnDashboard) {
-        if (isLoggedIn) return true;
+        if (isLoggedIn && isAdmin) return true;
+        if (isLoggedIn && isUser){
+          if (isAdminDash) return false;
+          return true;
+        }
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {
         return Response.redirect(new URL('/dashboard', nextUrl));
