@@ -10,7 +10,7 @@ const users = [
     id: '410544b2-4001-2126-9855-fec4b623445c',
     name: 'User2',
     email: 'user@nextmail.com',
-    password: '123456',
+    password: '098765',
     role: 'user',
   },
   {
